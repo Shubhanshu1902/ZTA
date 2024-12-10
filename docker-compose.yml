@@ -1,0 +1,43 @@
+services:
+  container1: 
+    build: ./server
+    container_name: container1
+    ports:
+      - 5000:5000
+    volumes:
+      - mydata:/data
+      - hostpipe:/hostpipe
+    # networks:
+    #   - docker-network
+
+
+  container2:
+    build: ./container_app
+    container_name: container2
+    ports:
+      - 5002:5002
+    volumes:
+      - mydata:/data
+      - hostpipe:/hostpipe
+
+volumes:
+  mydata:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: /home/iiitb/docker_listen/data
+
+  hostpipe:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: /home/iiitb/docker_listen/pipe
+
+networks:
+  docker-network:
+    # Specify driver options
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"

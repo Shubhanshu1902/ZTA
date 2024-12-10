@@ -1,0 +1,9 @@
+{
+    "IP" : ["103.156.19.229", "119.161.98.68"],
+    "PRETTY_NAME" : ["Ubuntu 22.04.5 LTS"],
+    "NAME" : ["Ubuntu"],
+    "VERSION_ID" : ["22.04", "22.05"],
+    "VERSION_CODENAME" : ["jammy"],
+    "Image" : ["sha256:7c6a77628ac1abae84329fa59b7ede20de7c459f7c03c3a894158ca8d6497820"],
+    "Platform" : ["linux"]
+}
