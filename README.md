@@ -9,4 +9,4 @@ Instructions to run the code.
 4. Server container runs on port 5000 and client container runs on port 5002
 5. If you want to run this as a user, run the file ```user_app/server.py```. This will start a flask app.
 6. If you want to send a request to the server via the client container, on a web browser, run(if running locally, change IP if running on a VM) ```localhost:5002/make_connection```
-7. Change the policy according to your use case or testing.
+7. Change the policy according to your use case or testing at ```server/user_policy.json```
