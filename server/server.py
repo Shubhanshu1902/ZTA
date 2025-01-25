@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import requests as req
 import json
 
 app = Flask(__name__)
@@ -59,7 +60,13 @@ def authenticate_request():
     if not auth_header or auth_header != f"Bearer {SECRET_TOKEN}":
         return jsonify({"error": "Unauthorized"}), 401
     
-    data = request.get_json()
+    port = request.headers.get("Port")
+    print(port)
+    target_ip = f"http://{request.remote_addr}:{port}/getData"
+    print(target_ip)
+    resp = req.get(target_ip)
+    data = resp.json()['data']
+    print(data)
     if not (data and "TYPE" in data and data['TYPE'] in [USER, CONTAINER]):
         return jsonify({"error": "no type", "data" : data}), 401
     

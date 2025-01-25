@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 import requests
 from threading import Lock
 import os
@@ -10,6 +10,7 @@ app = Flask(__name__)
 FIELDS = ["IP", "PRETTY_NAME", "NAME" , "VERSION_ID", "VERSION_CODENAME", "Image", "Platform"]
 mutex = Lock()
 hostname = open("/etc/hostname", "r").readline()
+PORT = 5002
 
 def deleteOutputFile(outputfile):
     try:
@@ -72,18 +73,26 @@ def getData():
     dict1["TYPE"] = "container"
     return dict1
 
+@app.route('/getData', methods=['GET'])
+def getDataRequest():
+   auth_data = getData()
+   print("GET DATA ")
+   return jsonify({'data': auth_data})
+
 @app.route('/make_connection', methods=['GET'])
 def makeConnection():
-    target_url = "http://172.16.202.126:5000/process"
-    auth_data = getData()
-    headers = {"Authorization" : "Bearer my_secret_token"}
+    target_url = "http://172.16.202.130:5000/process"
+    print("target url:- ", target_url)
+    print("getting the data")
+    headers = {"Authorization" : "Bearer my_secret_token", "Port": str(PORT)}
     
     try:
-        response = requests.post(target_url, json=auth_data, headers=headers)
+        response = requests.post(target_url, headers=headers)
         return f"Response from container 1 is : {response.json()}"
     
     except requests.exceptions.RequestException as e:
         return f"Error sending request: {e}"
     
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5002)
+    print("Hello world")
+    app.run(host="0.0.0.0", port=PORT)
